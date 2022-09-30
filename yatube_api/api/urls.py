@@ -1,18 +1,20 @@
 from django.urls import include, path
-from rest_framework import routers
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import (TokenObtainPairView,
+                                            TokenRefreshView)
+
 from .views import CommentViewSet, FollowViewSet, GroupViewSet, PostViewSet
 
-router = routers.DefaultRouter()
-router.register('posts', PostViewSet)
-router.register('groups', GroupViewSet)
+router = DefaultRouter()
+router.register('posts', PostViewSet, basename='posts')
 router.register('follow', FollowViewSet, basename='follow')
-router.register(r'posts/(?P<post_pk>\d+)/comments',
-                CommentViewSet, basename='comments')
-
-VERSION_PARAM = 'v1'
+router.register(r'posts/(?P<post_id>\d+)/comments', CommentViewSet,
+                basename='comments')
+router.register('groups', GroupViewSet)
 
 urlpatterns = [
-    path(f'{VERSION_PARAM}/', include(router.urls)),
-    path(f'{VERSION_PARAM}/', include('djoser.urls')),
-    path(f'{VERSION_PARAM}/', include('djoser.urls.jwt')),
+    path('v1/', include(router.urls)),
+    path('v1/auth/', include('djoser.urls')),
+    path('v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('v1/token/refresh/', TokenRefreshView.as_view, name='token_refresh')
 ]
