@@ -5,11 +5,17 @@ User = get_user_model()
 
 
 class Group(models.Model):
-    title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True)
-    description = models.TextField()
+    """Модель для работы с группами в базе данных."""
+    title = models.CharField('Название группы', max_length=200)
+    slug = models.SlugField('Код группы в url', unique=True)
+    description = models.TextField('Описание', max_length=500)
+
+    class Meta:
+        verbose_name = 'Группа'
+        verbose_name_plural = 'Группы'
 
     def __str__(self):
+        """Метод, который возвращает строковое представление объекта."""
         return self.title
 
 
