@@ -13,6 +13,6 @@ VERSION_PARAM = 'v1'
 
 urlpatterns = [
     path(f'{VERSION_PARAM}/', include(router.urls)),
-    path(f'{VERSION_PARAM}/', include('djoser.urls')),
+    # path(f'{VERSION_PARAM}/', include('djoser.urls')),
     path(f'{VERSION_PARAM}/', include('djoser.urls.jwt')),
 ]
